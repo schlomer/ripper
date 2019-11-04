@@ -28,3 +28,5 @@ Additional information about the **rips** server:
 
 
 **More information to come. In the meantime, check it out!**
+
+Special thanks to the developers of JSON for Modern C++ and their excellent, header only, C++ JSON library: https://github.com/nlohmann/json
