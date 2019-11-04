@@ -1,12 +1,11 @@
-# Ripper
-In-memory partitioned JSON database, with a transaction log.
+**In-memory partitioned JSON database, with a transaction log.**
 
 Ripper is a simple to use database for JSON objects and supports partitioned, indexed, and filtered look-ups.
 Layout is similar to commercial, large scale JSON databases you might know.
 
 **DO NOT consider Ripper to be industrial/commercial grade as testing has been limited. USE AT YOUR OWN RISK.**
 
-Host -> Data Servers -> Databases -> Containers -> JSON Objects
+**General Hierarchy:** Host Machine Ripper service(s) contain Data Servers that contain Databases that contain Containers that contain JSON Objects
 
 Records stored in containers are put in buckets by partition key. The combination of partition key and ID form the 'Primary Key' of the JSON object in a container.
 In addition to fast lookups by partition key, filter objects can be created to post-filter records after retrieving from memory, but before sending over the wire.
@@ -29,12 +28,12 @@ Additional information about the **rips** server:
 
 ## Instructions
 1. Compile a Release build of the solution
-2. In the x64\Release directory, run rips.exe from the command line and leave running
+2. In the x64\Release directory, run rips.exe from the command line and leave running.  To change the listening port number (defaults to 1234) before starting **rips.exe**, edit **rip-config.json** and set the tcpPort.  Upon starting **rips.exe**, Windows may warn about the port and you may need to let rips.exe through the Windows firewall.
 3. In the RipExample.Wpf.Core\bin\Release\netcoreapp3.0 directory, run RipExample.Wpf.Core.exe
-4. Click Connect (connecting for the first time will fill Contanct and Phone containers with random data)
+4. Click Connect (connecting for the first time will fill Contact and Phone containers with random data)
 5. Enter Joh in the First Name Contains text box
-6. Click Query and you should see some results with Contact FirstName starting with Joh
-... See RipExample.Lib.Core/ContactData.cs for list of first and last names used to randomly populate the Contacts container
+6. Click Query and you should see some results with Contact FirstName starting with Joh and having ages greater than 0
+... See RipExample.Lib.Core/ContactData.cs for the first and last name arrays used to randomly populate the Contacts container
 
 
 **More information to come. In the meantime, check it out! Suggestions and improvements are always welcome.**
