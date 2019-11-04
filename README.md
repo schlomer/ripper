@@ -4,7 +4,7 @@ In-memory partitioned JSON database, with a transaction log.
 Ripper is a simple to use database for JSON objects and supports partitioned, indexed, and filtered look-ups.
 Layout is similar to commercial, large scale JSON databases you might know.
 
-**DO NOT consider Ripper to be industrial grade as testing has been limited. USE AT YOUR OWN RISK.**
+**DO NOT consider Ripper to be industrial/commercial grade as testing has been limited. USE AT YOUR OWN RISK.**
 
 Host -> Data Servers -> Databases -> Containers -> JSON Objects
 
@@ -27,6 +27,16 @@ Additional information about the **rips** server:
 * currently a Windows 10 console app server that uses the C++/WinRT networking libraries. Should be easy enough to use the server classes directly embedded in other C++ code, wrapped in a Windows service, or converted to Linux.
 
 
-**More information to come. In the meantime, check it out!**
+## Instructions
+1. Compile a Release build of the solution
+2. In the x64\Release directory, run rips.exe from the command line and leave running
+3. In the RipExample.Wpf.Core\bin\Release\netcoreapp3.0 directory, run RipExample.Wpf.Core.exe
+4. Click Connect (connecting for the first time will fill Contanct and Phone containers with random data)
+5. Enter Joh in the First Name Contains text box
+6. Click Query and you should see some results with Contact FirstName starting with Joh
+... See RipExample.Lib.Core/ContactData.cs for list of first and last names used to randomly populate the Contacts container
 
-Special thanks to the developers of JSON for Modern C++ and their excellent, header only, C++ JSON library: https://github.com/nlohmann/json
+
+**More information to come. In the meantime, check it out! Suggestions and improvements are always welcome.**
+
+Thanks to the developers of JSON for Modern C++ and their excellent, header only, C++ JSON library: https://github.com/nlohmann/json
