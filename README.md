@@ -28,7 +28,7 @@ Additional information about the **rips** server:
 
 ## Instructions
 1. Compile a Release build of the solution
-2. In the x64\Release directory, run rips.exe from the command line and leave running.  To change the listening port number (defaults to 1234) before starting **rips.exe**, edit **rip-config.json** and set the tcpPort.  Upon starting **rips.exe**, Windows may warn about the port and you may need to let rips.exe through the Windows firewall.
+2. In the x64\Release directory, run rips.exe from the command line and leave running.  To change the listening port number (defaults to 1234) before starting **rips.exe**, edit **rip-config.json** and set the tcpPort.  Upon starting **rips.exe**, Windows may warn about the port and you may need to let rips.exe through the Windows firewall. **If you change the port, you will need to use that port with the RipExample apps so they know where to send requests.**
 3. In the RipExample.Wpf.Core\bin\Release\netcoreapp3.0 directory, run RipExample.Wpf.Core.exe
 4. Click Connect (connecting for the first time will fill Contact and Phone containers with random data)
 5. Enter Joh in the First Name Contains text box
