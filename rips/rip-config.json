@@ -1,0 +1,6 @@
+{
+  "serverName": "ripper",
+  "tcpPort": 1234,
+  "tcpSendSizeBytes": 65535,
+  "transactionLogPath": "rip-tlog.json"
+}
