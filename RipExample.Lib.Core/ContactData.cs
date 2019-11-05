@@ -46,6 +46,11 @@ namespace RipExample.Lib.Core
             }
         }
 
+        public RipClient Rip
+        {
+            get => rip;
+        }
+
         public async Task ConnectAsync(string hostServer, int ripperPort, string dataServerName, string databaseName)
         {   
             this.dataServerName = dataServerName;

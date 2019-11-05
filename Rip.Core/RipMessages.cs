@@ -3,6 +3,36 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+namespace Rip.Core
+{
+    public class RipDataServerDescription
+    {
+        [JsonProperty("sn")]
+        public string Name { get; set; }
+    }
+
+    public class RipDatabaseDescription
+    {        
+        [JsonProperty("dn")]
+        public string Name { get; set; }
+    }
+
+    public class RipContainerDescription
+    {
+        [JsonProperty("cn")]
+        public string Name { get; set; }
+
+        [JsonProperty("pkp")]
+        public string PartitionKeyPath { get; set; }
+
+        [JsonProperty("idp")]
+        public string IdPath { get; set; }
+
+        [JsonProperty("ixp")]
+        public string[] IndexPaths { get; set; }
+    }
+}
+
 namespace Rip.Core.Messages
 {
     public enum RequestTypes
@@ -17,7 +47,10 @@ namespace Rip.Core.Messages
         GetRecords = 8,
         GetDataServer = 9,
         GetDatabase = 10,
-        GetContainer = 11
+        GetContainer = 11,
+        ListDataServers = 12,
+        ListDatabases = 13,
+        ListContainers = 14
     }
 
     public class Request
@@ -289,5 +322,71 @@ namespace Rip.Core.Messages
     {
         [JsonProperty("j")]
         public string[] ResponseJsons { get; set; }
+    }  
+
+    // ListDataServers
+    public class ListDataServersRequest : Request
+    {
+        public ListDataServersRequest() : base(RequestTypes.ListDataServers)
+        {            
+        }        
+    }
+
+    public class ListDataServersResponse : Response
+    {
+        [JsonProperty("dsd")]
+        public RipDataServerDescription[] DataServers;
+    }
+
+    // ListDatabases
+    public class ListDatabasesRequest : Request
+    {
+        public ListDatabasesRequest(string dataServerName) : base(RequestTypes.ListDatabases)
+        {
+            DataServerName = dataServerName;
+        }
+
+        [JsonRequired]
+        [JsonProperty("sn")]
+        public string DataServerName { get; set; }
+    }
+
+    public class ListDatabasesResponse : Response
+    {
+        [JsonProperty("sn")]
+        public string DataServerName { get; set; }
+
+        [JsonProperty("dd")]
+        public RipDatabaseDescription[] Databases { get; set; }
+    }
+
+    // ListContainers
+    public class ListContainersRequest : Request
+    {
+        public ListContainersRequest(string dataServerName, string databaseName) : base(RequestTypes.ListContainers)
+        {
+            DataServerName = dataServerName;
+            DatabaseName = databaseName;
+        }
+
+        [JsonRequired]
+        [JsonProperty("sn")]
+        public string DataServerName { get; set; }
+
+        [JsonRequired]
+        [JsonProperty("dn")]
+        public string DatabaseName { get; set; }
+    }
+
+    public class ListContainersResponse : Response
+    {
+        [JsonProperty("sn")]
+        public string DataServerName { get; set; }
+
+        [JsonProperty("dn")]
+        public string DatabaseName { get; set; }
+
+        [JsonProperty("cd")]
+        public RipContainerDescription[] Containers { get; set; }
     }
 }

@@ -697,6 +697,104 @@ std::experimental::generator<std::string> server::handle_get_records(const json&
 	}	
 }
 
+json server::handle_list_data_servers(const json& message)
+{	
+	json j = json::object();
+
+	json::array_t dsd = json::array();
+
+	for (auto i = data_servers.begin(); i != data_servers.end(); ++i)
+	{
+		json ds = json::object();
+		ds["sn"] = i->second->get_name();	
+		dsd.emplace_back(std::move(ds));
+	}
+
+	j["dsd"] = dsd;
+
+	return j;
+}
+
+json server::handle_list_databases(const json& message)
+{
+	std::string data_server_name_out;
+	json v = validate_required_key(message, key_data_server_name, data_server_name_out);
+	if (v.is_null() == false)
+		return v;
+
+	auto s = data_servers.find(data_server_name_out);
+	if (s == data_servers.end())
+		return error_response("Data server not found.");
+
+	json j = json::object();
+	j["sn"] = data_server_name_out;
+
+	json::array_t dd = json::array();	
+
+	auto db = s->second->get_databases();
+	
+	for (size_t i=0; i<db.size(); ++i)
+	{		
+		json d = json::object();
+		d["dn"] = db[i]->get_name();
+		dd.emplace_back(std::move(d));
+	}
+
+	j["dd"] = dd;
+
+	return j;
+}
+
+json server::handle_list_containers(const json& message)
+{
+
+	std::string data_server_name_out;
+	std::string database_name_out;
+	json v = validate_required_key(message, key_data_server_name, data_server_name_out);
+	if (v.is_null() == false)
+		return v;
+
+	auto s = data_servers.find(data_server_name_out);
+	if (s == data_servers.end())
+		return error_response("Data server not found.");
+
+	v = validate_required_key(message, key_database_name, database_name_out);
+	if (v.is_null() == false)
+		return v;
+
+	auto d = s->second->get_database(database_name_out);
+	if (d == nullptr)
+		return error_response("Database not found.");
+
+	json j = json::object();
+	j["sn"] = data_server_name_out;
+	j["dn"] = database_name_out;
+
+	json::array_t cd = json::array();
+
+	auto cc = d->get_containers();
+	for (size_t i = 0; i < cc.size(); ++i)
+	{
+		auto ci = cc[i];
+		json c = json::object();
+		c["cn"] = ci->get_name();
+		c["idp"] = ci->get_id_path();
+		c["pkp"] = ci->get_partition_key_path();
+		
+		json::array_t ix = json::array();
+		auto indexes = ci->get_index_paths();
+		for (size_t ii = 0; ii < indexes.size(); ++ii)
+			ix.push_back(indexes[ii]);
+
+		c["ixp"] = ix;
+		cd.emplace_back(std::move(c));
+	}
+
+	j["cd"] = cd;
+
+	return j;
+}
+
 IAsyncAction server::handle_connection(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
 {
 	try
@@ -789,6 +887,15 @@ IAsyncAction server::handle_connection(StreamSocketListener sender, StreamSocket
 					break;
 				case request_types::get_container:
 					json_response = handle_get_container(j);
+					break;
+				case request_types::list_data_servers:
+					json_response = handle_list_data_servers(j);
+					break;
+				case request_types::list_databases:
+					json_response = handle_list_databases(j);
+					break;
+				case request_types::list_containers:
+					json_response = handle_list_containers(j);
 					break;
 				}				
 			}

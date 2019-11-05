@@ -35,6 +35,34 @@ namespace RipExample.Con.Core
                 Console.WriteLine(JsonConvert.SerializeObject(r));
                 Console.WriteLine();
             }
+
+            Console.WriteLine("------------");
+            Console.WriteLine("Data Servers");
+            Console.WriteLine("------------");
+
+            foreach(var r in await data.Rip.ListDataServersAsync())
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(r));
+
+                Console.WriteLine("  ---------");
+                Console.WriteLine("  Databases");
+                Console.WriteLine("  ---------");
+
+                foreach(var d in await data.Rip.ListDatabasesAsync(r.Name))
+                {
+                    Console.WriteLine("  " + JsonConvert.SerializeObject(d));
+
+                    Console.WriteLine("    ----------");
+                    Console.WriteLine("    Containers");
+                    Console.WriteLine("    ----------");
+
+                    foreach(var c in await data.Rip.ListContainersAsync(r.Name, d.Name))
+                    {
+                        Console.WriteLine("    " + JsonConvert.SerializeObject(c));
+                    }
+                }
+            }
+
         }
     }
 }

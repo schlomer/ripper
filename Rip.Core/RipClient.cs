@@ -421,6 +421,97 @@ namespace Rip.Core
                 yield return r;
         }
 
+        internal async Task<Messages.ListDataServersResponse> RemoteListDataServersAsync()
+        {
+            var request = new Messages.ListDataServersRequest();
+            await SendRequestAsync(request, null);
+            return await GetResponseAsync<Messages.ListDataServersResponse>();
+        }
+
+        public async Task<IEnumerable<RipDataServerDescription>> ListDataServersAsync()
+        {
+            var response = await RemoteListDataServersAsync();
+            if (response == null)
+                throw new RipException("No response.");
+            if (string.IsNullOrWhiteSpace(response.Error) == false)
+                throw new RipException(response.Error);
+
+            var r = new List<RipDataServerDescription>();
+            if (response.DataServers == null)
+                return r;
+
+            foreach (var d in response.DataServers)
+                r.Add(d);
+
+            return r;
+        }
+
+        internal async Task<Messages.ListDatabasesResponse> RemoteListDatabasesAsync(string dataServerName)
+        {
+            var request = new Messages.ListDatabasesRequest(dataServerName);
+            await SendRequestAsync(request, null);
+            return await GetResponseAsync<Messages.ListDatabasesResponse>();
+        }
+
+        public async Task<IEnumerable<RipDatabaseDescription>> ListDatabasesAsync(string dataServerName)
+        {
+            var response = await RemoteListDatabasesAsync(dataServerName);
+            if (response == null)
+                throw new RipException("No response.");
+            if (string.IsNullOrWhiteSpace(response.Error) == false)
+                throw new RipException(response.Error);
+
+            if (string.IsNullOrWhiteSpace(response.DataServerName) || response.DataServerName != dataServerName)
+                throw new RipException("Invalid response from server.");
+
+            var r = new List<RipDatabaseDescription>();
+            if (response.Databases == null)
+                return r;
+
+            foreach (var d in response.Databases)
+                r.Add(new RipDatabaseDescription
+                {
+                     Name = d.Name 
+                });
+
+            return r;
+        }
+
+        internal async Task<Messages.ListContainersResponse> RemoteListContainersAsync(string dataServerName, string databaseName)
+        {
+            var request = new Messages.ListContainersRequest(dataServerName, databaseName);
+            await SendRequestAsync(request, null);
+            return await GetResponseAsync<Messages.ListContainersResponse>();
+        }
+
+        public async Task<IEnumerable<RipContainerDescription>> ListContainersAsync(string dataServerName, string databaseName)
+        {
+            var response = await RemoteListContainersAsync(dataServerName, databaseName);
+            if (response == null)
+                throw new RipException("No response.");
+            if (string.IsNullOrWhiteSpace(response.Error) == false)
+                throw new RipException(response.Error);
+
+            if (string.IsNullOrWhiteSpace(response.DataServerName) || response.DataServerName != dataServerName
+                || string.IsNullOrWhiteSpace(response.DatabaseName) || response.DatabaseName != databaseName)
+                throw new RipException("Invalid response from server.");
+
+            var r = new List<RipContainerDescription>();
+            if (response.Containers == null)
+                return r;
+
+            foreach (var d in response.Containers)
+                r.Add(new RipContainerDescription
+                {
+                    Name = d.Name,
+                    IdPath = d.IdPath,
+                    IndexPaths = d.IndexPaths,
+                    PartitionKeyPath = d.PartitionKeyPath
+                });
+
+            return r;
+        }
+
         #region IDisposable Support
         private bool disposedValue = false;
 

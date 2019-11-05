@@ -359,3 +359,8 @@ std::string container::get_id_path() const
 {
 	return id_path;
 }
+
+std::vector<std::string> container::get_index_paths() const
+{
+	return index_paths;
+}

@@ -234,6 +234,7 @@ namespace rip
 			std::string get_name() const;
 			std::string get_partition_key_path() const;
 			std::string get_id_path() const;
+			std::vector<std::string> get_index_paths() const;
 
 			std::experimental::generator<std::string> get_records() const;
 			std::experimental::generator<std::string> get_records(std::string partition_key) const;

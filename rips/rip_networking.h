@@ -36,7 +36,10 @@ namespace rip
 			get_records = 8,
 			get_data_server = 9,
 			get_database = 10,
-			get_container = 11
+			get_container = 11,
+			list_data_servers = 12,
+			list_databases = 13,
+			list_containers = 14
 		};
 
 		// server
@@ -65,6 +68,10 @@ namespace rip
 			std::experimental::generator<std::string> handle_get_records(const json& message);
 			std::shared_ptr<data::container> get_container(std::string data_server_name, std::string database_name, std::string container_name
 				,std::shared_ptr<data::server>& server_out);
+
+			json handle_list_data_servers(const json& message);
+			json handle_list_databases(const json& message);
+			json handle_list_containers(const json& message);
 
 		public:
 			server(std::shared_ptr<configuration>& config, std::string name);
