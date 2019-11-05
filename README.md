@@ -1,3 +1,4 @@
+# Ripper
 **In-memory partitioned JSON database, with a transaction log.**
 
 Ripper is a simple to use database for JSON objects and supports partitioned, indexed, and filtered look-ups.
