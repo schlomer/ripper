@@ -55,7 +55,7 @@ ID Path: /Id
 ```
 
 ## Indexes
-Indexes on containers can speed up record retrieval and use JSON Pointer notation like partition key and ID paths. If one adds CarrierInfo to the example Phone JSON and wants to index on the carrier's name, /CarrierInfo/Name would be used as the index path. Members pointed to by an index path can be any type, although it probably makes the most sense to have index paths point to primitively typed members (i.e. bools, numbers, strings).
+Indexes on containers can speed up record retrieval and use JSON Pointer notation for partition key and ID paths. If one adds CarrierInfo to the example Phone JSON and wants to index on the carrier's name, /CarrierInfo/Name would be used as the index path. Members pointed to by an index path can be any type, although it probably makes the most sense to have index paths point to primitively typed members (i.e. bools, numbers, strings).
 
 ```
 {
