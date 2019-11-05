@@ -68,8 +68,35 @@ Indexes on containers can speed up record retrieval and use JSON Pointer notatio
 }
 
 Indexing on CarrierInfo Name: /CarrierInfo/Name
+```
+
+## Filters
+In this release, filters do not make use of indexes, but can be used post record retrieval to reduce traffic over the TCP connection. Getting records based on an index and applying a filter will help with both record retrieval performance and network traffic reduction. Filters can be applied to primitively typed members.
+
+Filters are ultimately JSON objects, but the Rip.Core library has helper classes (RipFilterBuilder, RipFilterOp, RipFilterParameter, RipFilterValue, RipFilterCommand) to contruct the JSON filter objects. See RipExample.Lib.Core - ContactData.cs for examples on how to construct and use filters using these helper classes.
 
 ```
+Filter operations supported:
+
+and - And expression
+or  - Or expression
+=   - Equal (case sensitive)
+<>  - Not Equal (case sensitive)
+>   - Greater Than (case sensitive)
+<   - Less Than (case sensitive)
+>=  - Greater Than or Equal (case sensitive)
+<=  - Less Than or Equal (case sensitive)
+=*  - Starts With (case insensitive)
+*=  - Ends With (case insensitive)
+*=* - Contains (case insensitive)
+
+Example filter JSON representing "Return records where FirstName contains 'Joh' and Age is greater than 30:
+{"f":{"and":[{"*=*":{"/FirstName":"Joh"}},{">":{"/Age":30}}]}
+
+```
+
+
+
 
 **More information to come. In the meantime, check it out! Suggestions and improvements are always welcome.**
 
