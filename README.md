@@ -26,7 +26,7 @@ Additional information about the **rips** server:
 * currently a Windows 10 console app server that uses the C++/WinRT networking libraries. Should be easy enough to use the server classes directly embedded in other C++ code, wrapped in a Windows service, or converted to Linux.
 
 
-## Instructions
+## Build and Run Instructions
 1. Compile a Release build of the solution
 2. In the x64\Release directory, run rips.exe from the command line and leave running.  To change the listening port number (defaults to 1234) before starting **rips.exe**, edit **rip-config.json** and set the tcpPort.  Upon starting **rips.exe**, Windows may warn about the port and you may need to let rips.exe through the Windows firewall. **If you change the port, you will need to use that port with the RipExample apps so they know where to send requests.**
 3. In the RipExample.Wpf.Core\bin\Release\netcoreapp3.0 directory, run RipExample.Wpf.Core.exe
@@ -35,6 +35,20 @@ Additional information about the **rips** server:
 6. Click Query and you should see some results with Contact FirstName starting with Joh and having ages greater than 0
 ... See RipExample.Lib.Core/ContactData.cs for the first and last name arrays used to randomly populate the Contacts container
 
+## Container Partition Keys and ID Paths
+When creating a container, a partition key path and ID path need to be provided. JSON Pointer notation is used. For the examples, Phone is partitioned by /ContactId and has /Id for the ID path. In this release, partition key and ID members must be strings. The partition key and ID combination must be unique within a container.
+
+Example Phone JSON: 
+
+{
+  "Id": "b1358f046683473e8f783950a82f538a",
+  "ContactId": "3d6fb736d4804bf5959c739a403721d8",
+  "Type": "Work",
+  "Number": "555-694-0317"
+}
+
+Partition Key Path: /ContactId
+Id Path: /Id
 
 **More information to come. In the meantime, check it out! Suggestions and improvements are always welcome.**
 
