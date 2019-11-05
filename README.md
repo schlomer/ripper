@@ -40,6 +40,7 @@ When creating a container, a partition key path and ID path need to be provided.
 
 Example Phone JSON: 
 
+```
 {
   "Id": "b1358f046683473e8f783950a82f538a",
   "ContactId": "3d6fb736d4804bf5959c739a403721d8",
@@ -48,7 +49,9 @@ Example Phone JSON:
 }
 
 Partition Key Path: /ContactId
+
 Id Path: /Id
+```
 
 **More information to come. In the meantime, check it out! Suggestions and improvements are always welcome.**
 
