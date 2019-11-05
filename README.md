@@ -53,6 +53,24 @@ Partition Key Path: /ContactId
 ID Path: /Id
 ```
 
+## Indexes
+Indexes on containers can speed up record retrieval and use JSON Pointer notation like partition key and ID paths. If one adds CarrierInfo to the example Phone JSON and wants to index on the carrier's name, /CarrierInfo/Name would be used as the index path. Members pointed to by an index path can be any type, although it probably makes the most sense to have index paths point to primitively typed members (i.e. bools, numbers, strings).
+
+```
+{
+  "Id": "b1358f046683473e8f783950a82f538a",
+  "ContactId": "3d6fb736d4804bf5959c739a403721d8",
+  "Type": "Mobile",
+  "Number": "555-696-0663"
+  "CarrierInfo" : {
+    "Name":"ATT"
+  }
+}
+
+Indexing on CarrierInfo Name: /CarrierInfo/Name
+
+```
+
 **More information to come. In the meantime, check it out! Suggestions and improvements are always welcome.**
 
 Thanks to the developers of JSON for Modern C++ and their excellent, header only, C++ JSON library: https://github.com/nlohmann/json
