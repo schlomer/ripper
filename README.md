@@ -50,7 +50,7 @@ Example Phone JSON:
 
 Partition Key Path: /ContactId
 
-Id Path: /Id
+ID Path: /Id
 ```
 
 **More information to come. In the meantime, check it out! Suggestions and improvements are always welcome.**
