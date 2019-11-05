@@ -91,10 +91,9 @@ or  - Or expression
 *=* - Contains (case insensitive)
 
 Example filter JSON representing "Return records where FirstName contains 'Joh' and Age is greater than 30:
+
 {"f":{"and":[{"*=*":{"/FirstName":"Joh"}},{">":{"/Age":30}}]}
-
 ```
-
 
 
 
