@@ -20,7 +20,7 @@ If transaction logs are detected upon initial server startup, they get played in
 * **rips** - C++/WinRT command line server that listens on a configurable TCP port for incoming messages.
 * **RipAdmin** - Windows Forms .NET Framework 4.8 Ripper administration program. View servers, databases, containers, records, etc.
 * **Rip.Core** - .NET Core 3.0 class library to easily make requests from a .NET Core app to the **rips** server.
-* **Rip.Net** - .NET Framework 4.8 class library. Requires C# 8.0.
+* **Rip.Net** - .NET Framework 4.8 class library to easily make requests to the **rips** server. Requires C# 8.0.
 * **RipExample.Lib.Core** - Example .NET Core 3.0 data access layer library using Contact and Phone as example business object models. Uses Rip.Core
 * **RipExample.Con.Core** - Example .NET Core 3.0 console app using RipExample.Lib.Core
 * **RipExample.Wpf.Core** - Example .NET Core 3.0 WPF app using RipExample.Lib.Core
