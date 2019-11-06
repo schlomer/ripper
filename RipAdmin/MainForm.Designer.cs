@@ -38,13 +38,17 @@
             this.miActionExit = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tvConnections = new System.Windows.Forms.TreeView();
+            this.tvConnectionsImageList = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.tvConnectionsImageList = new System.Windows.Forms.ImageList(this.components);
+            this.recordsTextBox = new System.Windows.Forms.TextBox();
+            this.cmRecords = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miRecordsGetRecords = new System.Windows.Forms.ToolStripMenuItem();
             this.mainToolStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.cmRecords.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -86,20 +90,20 @@
             // 
             this.miActionConnectRipper.Image = global::RipAdmin.Properties.Resources.ConnectFilled_grey_16x;
             this.miActionConnectRipper.Name = "miActionConnectRipper";
-            this.miActionConnectRipper.Size = new System.Drawing.Size(180, 22);
+            this.miActionConnectRipper.Size = new System.Drawing.Size(165, 22);
             this.miActionConnectRipper.Text = "&Connect Ripper...";
             this.miActionConnectRipper.Click += new System.EventHandler(this.miActionConnectRipper_Click);
             // 
             // exitToolStripMenuItem1
             // 
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(162, 6);
             // 
             // miActionExit
             // 
             this.miActionExit.Image = global::RipAdmin.Properties.Resources.Exit_16x;
             this.miActionExit.Name = "miActionExit";
-            this.miActionExit.Size = new System.Drawing.Size(180, 22);
+            this.miActionExit.Size = new System.Drawing.Size(165, 22);
             this.miActionExit.Text = "E&xit";
             this.miActionExit.Click += new System.EventHandler(this.miActionExit_Click);
             // 
@@ -116,6 +120,7 @@
             // tvConnections
             // 
             this.tvConnections.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tvConnections.ContextMenuStrip = this.cmRecords;
             this.tvConnections.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvConnections.ImageIndex = 0;
             this.tvConnections.ImageList = this.tvConnectionsImageList;
@@ -124,6 +129,19 @@
             this.tvConnections.SelectedImageIndex = 0;
             this.tvConnections.Size = new System.Drawing.Size(200, 654);
             this.tvConnections.TabIndex = 1;
+            this.tvConnections.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvConnections_NodeMouseClick);
+            // 
+            // tvConnectionsImageList
+            // 
+            this.tvConnectionsImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("tvConnectionsImageList.ImageStream")));
+            this.tvConnectionsImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.tvConnectionsImageList.Images.SetKeyName(0, "DatabaseRun_16x.png");
+            this.tvConnectionsImageList.Images.SetKeyName(1, "DatabaseGroup_16x.png");
+            this.tvConnectionsImageList.Images.SetKeyName(2, "DatabaseTableGroup_16x.png");
+            this.tvConnectionsImageList.Images.SetKeyName(3, "Datalist_16x.png");
+            this.tvConnectionsImageList.Images.SetKeyName(4, "Partition_16x.png");
+            this.tvConnectionsImageList.Images.SetKeyName(5, "Guid_16x.png");
+            this.tvConnectionsImageList.Images.SetKeyName(6, "Indexer_16x.png");
             // 
             // panel2
             // 
@@ -155,17 +173,35 @@
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
             // 
-            // tvConnectionsImageList
+            // recordsTextBox
             // 
-            this.tvConnectionsImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("tvConnectionsImageList.ImageStream")));
-            this.tvConnectionsImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.tvConnectionsImageList.Images.SetKeyName(0, "DatabaseRun_16x.png");
-            this.tvConnectionsImageList.Images.SetKeyName(1, "DatabaseGroup_16x.png");
-            this.tvConnectionsImageList.Images.SetKeyName(2, "DatabaseTableGroup_16x.png");
-            this.tvConnectionsImageList.Images.SetKeyName(3, "Datalist_16x.png");
-            this.tvConnectionsImageList.Images.SetKeyName(4, "Partition_16x.png");
-            this.tvConnectionsImageList.Images.SetKeyName(5, "Guid_16x.png");
-            this.tvConnectionsImageList.Images.SetKeyName(6, "Indexer_16x.png");
+            this.recordsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.recordsTextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.recordsTextBox.Location = new System.Drawing.Point(205, 25);
+            this.recordsTextBox.Multiline = true;
+            this.recordsTextBox.Name = "recordsTextBox";
+            this.recordsTextBox.ReadOnly = true;
+            this.recordsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.recordsTextBox.Size = new System.Drawing.Size(834, 673);
+            this.recordsTextBox.TabIndex = 5;
+            this.recordsTextBox.WordWrap = false;
+            // 
+            // cmRecords
+            // 
+            this.cmRecords.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miRecordsGetRecords});
+            this.cmRecords.Name = "cmRecords";
+            this.cmRecords.ShowImageMargin = false;
+            this.cmRecords.Size = new System.Drawing.Size(113, 26);
+            this.cmRecords.Opening += new System.ComponentModel.CancelEventHandler(this.cmRecords_Opening);
+            // 
+            // miRecordsGetRecords
+            // 
+            this.miRecordsGetRecords.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.miRecordsGetRecords.Name = "miRecordsGetRecords";
+            this.miRecordsGetRecords.Size = new System.Drawing.Size(180, 22);
+            this.miRecordsGetRecords.Text = "Get Records";
+            this.miRecordsGetRecords.Click += new System.EventHandler(this.miRecordsGetRecords_Click);
             // 
             // MainForm
             // 
@@ -173,6 +209,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1039, 720);
+            this.Controls.Add(this.recordsTextBox);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.mainToolStrip);
@@ -184,6 +221,7 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.cmRecords.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,6 +240,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TreeView tvConnections;
         private System.Windows.Forms.ImageList tvConnectionsImageList;
+        private System.Windows.Forms.TextBox recordsTextBox;
+        private System.Windows.Forms.ContextMenuStrip cmRecords;
+        private System.Windows.Forms.ToolStripMenuItem miRecordsGetRecords;
     }
 }
 

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Rip.Net;
+
 namespace RipAdmin
 {
     public partial class MainForm : Form
@@ -55,6 +57,7 @@ namespace RipAdmin
                             var c = await db.GetContainerAsync(cd.Name);
                             tvC.Tag = c;
                             tvD.Nodes.Add(tvC);
+                            
 
                             var tvPK = new TreeNode(cd.PartitionKeyPath, 4, 4);
                             tvC.Nodes.Add(tvPK);
@@ -73,6 +76,51 @@ namespace RipAdmin
                     }
                 }
             }
+        }
+
+        private async void miRecordsGetRecords_Click(object sender, EventArgs e)
+        {
+            var tv = tvConnections.SelectedNode;
+            if (tv == null)
+                return;
+
+            var c = tv.Tag as RipContainer;
+            if (c == null)
+                return;
+
+            recordsTextBox.Clear();
+
+
+            var lines = new List<string>();
+
+            await foreach(var r in c.GetRecordsAsync(null))
+            {
+                lines.Add(r);
+            }
+
+            recordsTextBox.Lines = lines.ToArray();
+        }
+
+        private void cmRecords_Opening(object sender, CancelEventArgs e)
+        {
+            var tv = tvConnections.SelectedNode;
+            if (tv == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            var c = tv.Tag as RipContainer;
+            if (c == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        private void tvConnections_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right) tvConnections.SelectedNode = e.Node;
         }
     }
 }
