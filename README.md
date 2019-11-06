@@ -80,7 +80,7 @@ Indexing on CarrierInfo Name: /CarrierInfo/Name
 ## Filters
 In this release, filters do not make use of indexes, but can be used post record retrieval to reduce traffic over the TCP connection. Getting records based on an index and applying a filter will help with both record retrieval performance and network traffic reduction. Filters can be applied to primitively typed members.
 
-Filters are ultimately JSON objects, but the Rip.Core library has helper classes (RipFilterBuilder, RipFilterOp, RipFilterParameter, RipFilterValue, RipFilterCommand) to contruct the JSON filter objects. See RipExample.Lib.Core - ContactData.cs for examples on how to construct and use filters using these helper classes.
+Filters are ultimately JSON objects, but the Rip.Core (and Rip.Net) library has helper classes (RipFilterBuilder, RipFilterOp, RipFilterParameter, RipFilterValue, RipFilterCommand) to contruct the JSON filter objects. See RipExample.Lib.Core - ContactData.cs for examples on how to construct and use filters using these helper classes.
 
 ```
 Filter operations supported:
