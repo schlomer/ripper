@@ -28,77 +28,91 @@ namespace RipAdmin
 
         private async void miActionConnectRipper_Click(object sender, EventArgs e)
         {
-            var d = new ConnectRipperDialog();
-            var dr = d.ShowDialog();
-            if(dr == DialogResult.OK && d.RipClient != null)
+            try
             {
-                var rip = d.RipClient;
-                var tvRip = new TreeNode($"{rip.Server} : {rip.Port}", 0, 0);
-
-                tvConnections.Nodes.Add(tvRip);
-                                
-                foreach (var dsd in (await rip.ListDataServersAsync()).OrderBy(x => x.Name))
+                var d = new ConnectRipperDialog();
+                var dr = d.ShowDialog();
+                if (dr == DialogResult.OK && d.RipClient != null)
                 {
-                    var tvDs = new TreeNode(dsd.Name, 1, 1);
-                    var ds = await rip.GetDataServerAsync(dsd.Name);
-                    tvDs.Tag = ds;
-                    tvRip.Nodes.Add(tvDs);
+                    var rip = d.RipClient;
+                    var tvRip = new TreeNode($"{rip.Server} : {rip.Port}", 0, 0);
 
-                    foreach(var dbd in (await rip.ListDatabasesAsync(ds.Name)).OrderBy(x => x.Name))
+                    tvConnections.Nodes.Add(tvRip);
+
+                    foreach (var dsd in (await rip.ListDataServersAsync()).OrderBy(x => x.Name))
                     {
-                        var tvD = new TreeNode(dbd.Name, 2, 2);
-                        var db = await ds.GetDatabaseAsync(dbd.Name);
-                        tvD.Tag = db;
-                        tvDs.Nodes.Add(tvD);
+                        var tvDs = new TreeNode(dsd.Name, 1, 1);
+                        var ds = await rip.GetDataServerAsync(dsd.Name);
+                        tvDs.Tag = ds;
+                        tvRip.Nodes.Add(tvDs);
 
-                        foreach(var cd in (await rip.ListContainersAsync(ds.Name, db.Name)).OrderBy(x => x.Name))
+                        foreach (var dbd in (await rip.ListDatabasesAsync(ds.Name)).OrderBy(x => x.Name))
                         {
-                            var tvC = new TreeNode(cd.Name, 3, 3);
-                            var c = await db.GetContainerAsync(cd.Name);
-                            tvC.Tag = c;
-                            tvD.Nodes.Add(tvC);
-                            
+                            var tvD = new TreeNode(dbd.Name, 2, 2);
+                            var db = await ds.GetDatabaseAsync(dbd.Name);
+                            tvD.Tag = db;
+                            tvDs.Nodes.Add(tvD);
 
-                            var tvPK = new TreeNode(cd.PartitionKeyPath, 4, 4);
-                            tvC.Nodes.Add(tvPK);
-                            var tvId = new TreeNode(cd.IdPath, 5, 5);
-                            tvC.Nodes.Add(tvId);
-
-                            if (cd.IndexPaths != null)
+                            foreach (var cd in (await rip.ListContainersAsync(ds.Name, db.Name)).OrderBy(x => x.Name))
                             {
-                                foreach (var i in cd.IndexPaths)
+                                var tvC = new TreeNode(cd.Name, 3, 3);
+                                var c = await db.GetContainerAsync(cd.Name);
+                                tvC.Tag = c;
+                                tvD.Nodes.Add(tvC);
+
+
+                                var tvPK = new TreeNode(cd.PartitionKeyPath, 4, 4);
+                                tvC.Nodes.Add(tvPK);
+                                var tvId = new TreeNode(cd.IdPath, 5, 5);
+                                tvC.Nodes.Add(tvId);
+
+                                if (cd.IndexPaths != null)
                                 {
-                                    var tvI = new TreeNode(i, 6, 6);
-                                    tvC.Nodes.Add(tvI);
+                                    foreach (var i in cd.IndexPaths)
+                                    {
+                                        var tvI = new TreeNode(i, 6, 6);
+                                        tvC.Nodes.Add(tvI);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+            catch (Exception x)
+            {
+                MessageBox.Show(x.Message, "Connect Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void miRecordsGetRecords_Click(object sender, EventArgs e)
         {
-            var tv = tvConnections.SelectedNode;
-            if (tv == null)
-                return;
-
-            var c = tv.Tag as RipContainer;
-            if (c == null)
-                return;
-
-            recordsTextBox.Clear();
-
-
-            var lines = new List<string>();
-
-            await foreach(var r in c.GetRecordsAsync(null))
+            try
             {
-                lines.Add(r);
-            }
+                var tv = tvConnections.SelectedNode;
+                if (tv == null)
+                    return;
 
-            recordsTextBox.Lines = lines.ToArray();
+                var c = tv.Tag as RipContainer;
+                if (c == null)
+                    return;
+
+                recordsTextBox.Clear();
+
+
+                var lines = new List<string>();
+
+                await foreach (var r in c.GetRecordsAsync(null))
+                {
+                    lines.Add(r);
+                }
+
+                recordsTextBox.Lines = lines.ToArray();
+            }
+            catch(Exception x)
+            {
+                MessageBox.Show(x.Message, "Get Records Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void cmRecords_Opening(object sender, CancelEventArgs e)
