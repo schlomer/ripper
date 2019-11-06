@@ -72,13 +72,17 @@ namespace RipExample.Lib.Core
             // get or add contacts container, partitioned by /Id using /Id as the Id
             contacts = await database.GetContainerAsync(contactsContainerName);
             if (contacts == null)
+            {
                 contacts = await database.AddContainerAsync(contactsContainerName, "/Id", "/Id");
+                await contacts.AddIndexAsync("/Age");
+            }
 
             // get or add phones container, partitioned by /ContactId using /Id as the Id
             phones = await database.GetContainerAsync(phonesContainerName);
             if (phones == null)
             {
                 phones = await database.AddContainerAsync(phonesContainerName, "/ContactId", "/Id");
+                await phones.AddIndexAsync("/Number");
 
                 // prime the database with random contact info if empty
                 await FillWithRandomContactsAsync();
