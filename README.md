@@ -29,7 +29,7 @@ Additional information about the **rips** Ripper server:
 * configurable with the rip-config.json file that must be located in the **rips** startup directory
 * currently a Windows 10 console app server that uses the C++/WinRT networking libraries. Should be easy enough to use the server classes directly embedded in other C++ code, wrapped in a Windows service, or converted to Linux.
 
-Addition information about the **RipAdmin** program:
+Additional information about the **RipAdmin** program:
 * RipAdmin and Rip.Net require the .NET Framework 4.8 be installed to run. With RipAdmin, one can connect to Ripper server instances, view Data Servers, Databases, Containers, and view container records (right click on a Container and select Get Records).
 * When connecting to a Ripper server, in addition to the host server and port, you will need to enter a Data Server. If you're still playing around with the examples, Local1 is the name of the Data Server the examples use.
 * RipAdmin Screenshot: https://github.com/schlomer/ripper/blob/master/RipAdmin-screenshot.PNG
