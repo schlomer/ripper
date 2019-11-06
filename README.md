@@ -32,6 +32,7 @@ Additional information about the **rips** Ripper server:
 Addition information about the **RipAdmin** program:
 * RipAdmin and Rip.Net require the .NET Framework 4.8 be installed to run. With RipAdmin, one can connect to Ripper server instances, view Data Servers, Databases, Containers, and view container records (right click on a Container and select Get Records).
 * When connecting to a Ripper server, in addition to the host server and port, you will need to enter a Data Server. If you're still playing around with the examples, Local1 is the name of the Data Server the examples use.
+* RipAdmin Screenshot: https://github.com/schlomer/ripper/blob/master/RipAdmin-screenshot.PNG
 
 ## Build and Run Instructions
 1. Compile an x64 Release build of the solution
