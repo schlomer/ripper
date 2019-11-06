@@ -32,6 +32,7 @@ namespace RipAdmin
             DialogResult = DialogResult.None;
             var sHost = hostTextBox.Text;
             var sPort = portTextBox.Text;
+            var sDataServer = dataServerTextBox.Text;
 
             if(string.IsNullOrWhiteSpace(sHost))
             {
@@ -42,6 +43,12 @@ namespace RipAdmin
             if (string.IsNullOrWhiteSpace(sPort))
             {
                 portTextBox.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(sDataServer))
+            {
+                dataServerTextBox.Focus();
                 return;
             }
                         
@@ -55,7 +62,9 @@ namespace RipAdmin
             {
                 RipClient = null;
                 RipClient = await AppState.Instance.ConnectRipConnectionAsync(sHost, port);
-                
+                // need to connect to data server to force tlog loading on server instance
+                await RipClient.ConnectOrCreateDataServerAsync(sDataServer);
+
                 DialogResult = DialogResult.OK;
                 Close();
             }
