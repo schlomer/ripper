@@ -25,12 +25,15 @@ If transaction logs are detected upon initial server startup, they get played in
 * **RipExample.Con.Core** - Example .NET Core 3.0 console app using RipExample.Lib.Core
 * **RipExample.Wpf.Core** - Example .NET Core 3.0 WPF app using RipExample.Lib.Core
 
-Additional information about the **rips** server:
-* configurable with the rip-config.json file that must be located in the **rips** startup directory
-* currently a Windows 10 console app server that uses the C++/WinRT networking libraries. Should be easy enough to use the server classes directly embedded in other C++ code, wrapped in a Windows service, or converted to Linux.
+**Additional information about the Ripper server (rips):**
+* Configurable with the rip-config.json file that must be located in the **rips** startup directory
+* Currently a Windows 10 console app server that uses the C++/WinRT networking libraries. Should be easy enough to use the server classes directly embedded in other C++ code, wrapped in a Windows service, or converted to Linux.
+* There is no security, no usernames, no logins, etc. Just throw data at it.
 
-Addition information about the **RipAdmin** program:
+**Additional information about the Ripper Admin program (RipAdmin):**
 * RipAdmin and Rip.Net require the .NET Framework 4.8 be installed to run. With RipAdmin, one can connect to Ripper server instances, view Data Servers, Databases, Containers, and view container records (right click on a Container and select Get Records).
+* When connecting to a Ripper server, in addition to the host server and port, you will need to enter a Data Server. If you're still playing around with the examples, Local1 is the name of the Data Server the examples use.
+* RipAdmin Screenshot: https://github.com/schlomer/ripper/blob/master/RipAdmin-screenshot.PNG
 
 ## Build and Run Instructions
 1. Compile an x64 Release build of the solution
@@ -60,7 +63,7 @@ ID Path: /Id
 ```
 
 ## Indexes
-Indexes on containers can speed up record retrieval and use JSON Pointer notation for partition key and ID paths. If one adds CarrierInfo to the example Phone JSON and wants to index on the carrier's name, /CarrierInfo/Name would be used as the index path. Members pointed to by an index path can be any type, although it probably makes the most sense to have index paths point to primitively typed members (i.e. bools, numbers, strings).
+Indexes on containers can speed up record retrieval and use JSON Pointer notation. For instance, if one adds CarrierInfo to the example Phone JSON and wants to index on the carrier's name, /CarrierInfo/Name would be used as the index path. Members pointed to by an index path can be any type, although it probably makes the most sense to have index paths point to primitively typed members (i.e. bools, numbers, strings).
 
 ```
 {
@@ -79,7 +82,7 @@ Indexing on CarrierInfo Name: /CarrierInfo/Name
 ## Filters
 In this release, filters do not make use of indexes, but can be used post record retrieval to reduce traffic over the TCP connection. Getting records based on an index and applying a filter will help with both record retrieval performance and network traffic reduction. Filters can be applied to primitively typed members.
 
-Filters are ultimately JSON objects, but the Rip.Core library has helper classes (RipFilterBuilder, RipFilterOp, RipFilterParameter, RipFilterValue, RipFilterCommand) to contruct the JSON filter objects. See RipExample.Lib.Core - ContactData.cs for examples on how to construct and use filters using these helper classes.
+Filters are ultimately JSON objects, but the Rip.Core (and Rip.Net) library has helper classes (RipFilterBuilder, RipFilterOp, RipFilterParameter, RipFilterValue, RipFilterCommand) to construct the JSON filter objects. See RipExample.Lib.Core - ContactData.cs for examples on how to construct and use filters using these helper classes.
 
 ```
 Filter operations supported:
