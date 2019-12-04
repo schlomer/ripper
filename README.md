@@ -27,7 +27,7 @@ If transaction logs are detected upon initial server startup, they get played in
 
 **Additional information about the Ripper server (rips):**
 * Configurable with the rip-config.json file that must be located in the **rips** startup directory
-* Currently a Windows 10 console app server that uses the C++/WinRT networking libraries. Should be easy enough to use the server classes directly embedded in other C++ code, wrapped in a Windows service, or converted to Linux.
+* Currently a Windows 10 console app server that uses the C++/WinRT networking libraries. Should be easy enough to use the server classes directly embedded in other C++ code, wrapped in a Windows service, or converted to Linux. Also, WinRT networking in **rips** server can be replaced with boost::beast or other socket libraries without too much trouble.
 * There is no security, no usernames, no logins, etc. Just throw data at it.
 
 **Additional information about the Ripper Admin program (RipAdmin):**
